@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>٣٤٠ سؤالاً سألها يسوع</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf8f3;
+    --surface: #ffffff;
+    --surface2: #f5f0e8;
+    --text: #1a1410;
+    --text-muted: #6b5f52;
+    --text-light: #9b8e82;
+    --accent: #8b4513;
+    --accent2: #c8860a;
+    --accent3: #2d6a4f;
+    --border: #e0d5c8;
+    --border2: #c8b89a;
+    --shadow: rgba(0,0,0,0.08);
+    --fire: #e85d04;
+    --gold: #d4a017;
+    --progress-bg: #e0d5c8;
+    --progress-fill: #8b4513;
+    --nav-bg: #ffffff;
+    --nav-border: #e0d5c8;
+    --quote-bg: #fff9f0;
+    --quote-border: #c8860a;
+    --tldr-bg: #f0f7f4;
+    --tldr-border: #2d6a4f;
+    --fire-bg: linear-gradient(135deg, #fff3e0, #fff8f0);
+    --fire-border: #e85d04;
+    --key-bg: #f8f4ff;
+    --key-border: #7c3aed;
+    --code-bg: #1a1410;
+  }
+  [data-theme="dark"] {
+    --bg: #0f0d0a;
+    --surface: #1c1813;
+    --surface2: #241f18;
+    --text: #f0ead8;
+    --text-muted: #b8a990;
+    --text-light: #7a6e5f;
+    --accent: #d4845a;
+    --accent2: #e8b84b;
+    --accent3: #52b788;
+    --border: #2a241c;
+    --border2: #3d3328;
+    --shadow: rgba(0,0,0,0.4);
+    --fire: #ff7b2c;
+    --gold: #e8b84b;
+    --progress-bg: #2a241c;
+    --progress-fill: #d4845a;
+    --nav-bg: #1c1813;
+    --nav-border: #2a241c;
+    --quote-bg: #1e1a12;
+    --quote-border: #e8b84b;
+    --tldr-bg: #111e17;
+    --tldr-border: #52b788;
+    --fire-bg: linear-gradient(135deg, #1e1510, #201812);
+    --fire-border: #ff7b2c;
+    --key-bg: #130f1e;
+    --key-border: #9f7aea;
+    --code-bg: #0f0d0a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.3s, color 0.3s;
+    line-height: 1.9;
+  }
+
+  /* Progress Bar */
+  #progress-bar {
+    position: fixed; top: 0; right: 0; left: 0; height: 3px;
+    background: var(--progress-bg); z-index: 1000;
+  }
+  #progress-fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transition: width 0.1s;
+    border-radius: 0 2px 2px 0;
+  }
+
+  /* Navigation */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--nav-bg);
+    border-bottom: 1px solid var(--nav-border);
+    padding: 0 1rem;
+    box-shadow: 0 2px 12px var(--shadow);
+    transition: background 0.3s, border-color 0.3s;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px;
+  }
+  .nav-brand {
+    font-family: 'Amiri', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+  }
+  .nav-controls { display: flex; gap: 0.5rem; align-items: center; }
+  .nav-btn {
+    background: none; border: 1px solid var(--border2);
+    color: var(--text-muted); cursor: pointer;
+    border-radius: 6px; padding: 5px 10px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.8rem; transition: all 0.2s;
+  }
+  .nav-btn:hover { background: var(--surface2); color: var(--accent); border-color: var(--accent); }
+  #theme-toggle { font-size: 1rem; padding: 5px 8px; }
+
+  /* Sidebar TOC */
+  #toc-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5); z-index: 200;
+  }
+  #toc-overlay.open { display: block; }
+  #toc-panel {
+    position: fixed; right: -340px; top: 0; bottom: 0;
+    width: 320px; background: var(--surface);
+    border-left: 1px solid var(--border);
+    z-index: 201; overflow-y: auto;
+    transition: right 0.3s ease;
+    padding: 1.5rem;
+  }
+  #toc-panel.open { right: 0; }
+  #toc-panel h2 {
+    font-family: 'Amiri', serif;
+    font-size: 1.3rem; color: var(--accent);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border2);
+  }
+  .toc-list { list-style: none; }
+  .toc-list li { margin: 0.2rem 0; }
+  .toc-list a {
+    color: var(--text-muted); text-decoration: none;
+    font-size: 0.85rem; display: block;
+    padding: 0.35rem 0.5rem; border-radius: 4px;
+    transition: all 0.2s;
+    border-right: 2px solid transparent;
+  }
+  .toc-list a:hover { color: var(--accent); background: var(--surface2); border-right-color: var(--accent); }
+  .toc-list .toc-sub { padding-right: 1.2rem; font-size: 0.78rem; }
+  #close-toc {
+    float: left; background: none; border: none;
+    font-size: 1.2rem; cursor: pointer; color: var(--text-muted);
+    padding: 4px 8px; border-radius: 4px;
+  }
+  #close-toc:hover { color: var(--accent); }
+
+  /* Layout */
+  main {
+    max-width: 740px; margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* Cover */
+  .cover {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--surface);
+    border-radius: 16px;
+    margin-bottom: 3rem;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center top, rgba(139,69,19,0.06), transparent 60%);
+  }
+  .cover-icon {
+    font-size: 3rem; margin-bottom: 1rem;
+    display: block;
+  }
+  .cover h1 {
+    font-family: 'Amiri', serif;
+    font-size: 2.6rem; font-weight: 700;
+    color: var(--accent);
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+  }
+  .cover-subtitle {
+    font-size: 1rem; color: var(--text-muted);
+    margin-top: 1rem;
+    font-weight: 300;
+  }
+  .cover-author {
+    font-family: 'Amiri', serif;
+    font-size: 1.1rem; color: var(--accent2);
+    margin-top: 1.5rem;
+    font-weight: 700;
+  }
+  .cover-divider {
+    width: 80px; height: 3px;
+    background: linear-gradient(90deg, transparent, var(--accent2), transparent);
+    margin: 1.5rem auto;
+  }
+  .cover-tags {
+    display: flex; flex-wrap: wrap; gap: 0.4rem;
+    justify-content: center; margin-top: 1.5rem;
+  }
+  .tag {
+    background: var(--surface2); color: var(--text-muted);
+    border: 1px solid var(--border); border-radius: 20px;
+    padding: 3px 12px; font-size: 0.75rem;
+  }
+
+  /* Chapter */
+  .chapter {
+    background: var(--surface);
+    border-radius: 12px;
+    margin-bottom: 2.5rem;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .chapter-header {
+    padding: 2rem 2rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  .chapter-num {
+    font-size: 0.75rem; font-weight: 700;
+    color: var(--accent2); letter-spacing: 1px;
+    text-transform: uppercase;
+    display: block; margin-bottom: 0.5rem;
+  }
+  .chapter-header h1 {
+    font-family: 'Amiri', serif;
+    font-size: 1.7rem; line-height: 1.4;
+    color: var(--text);
+  }
+  .chapter-header .author {
+    font-size: 0.8rem; color: var(--text-light);
+    margin-top: 0.5rem;
+  }
+  .chapter-body { padding: 2rem; }
+
+  /* TL;DR */
+  .tldr {
+    background: var(--tldr-bg);
+    border: 1px solid var(--tldr-border);
+    border-radius: 8px;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .tldr-title {
+    font-weight: 700; font-size: 0.85rem;
+    color: var(--accent3); margin-bottom: 0.8rem;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .tldr ul { list-style: none; padding: 0; }
+  .tldr ul li {
+    font-size: 0.9rem; color: var(--text-muted);
+    padding: 0.25rem 0;
+    display: flex; gap: 8px;
+  }
+  .tldr ul li::before { content: '◈'; color: var(--accent3); flex-shrink: 0; }
+
+  /* Content */
+  .chapter-body h2 {
+    font-family: 'Amiri', serif;
+    font-size: 1.3rem; color: var(--accent);
+    margin: 2rem 0 0.8rem;
+    padding-right: 0.8rem;
+    border-right: 3px solid var(--accent2);
+  }
+  .chapter-body h3 {
+    font-size: 1.05rem; font-weight: 700;
+    color: var(--text); margin: 1.5rem 0 0.6rem;
+  }
+  .chapter-body p {
+    font-size: 0.95rem; color: var(--text-muted);
+    margin-bottom: 1rem; line-height: 2;
+  }
+  .chapter-body ul, .chapter-body ol {
+    padding-right: 1.5rem; margin-bottom: 1rem;
+  }
+  .chapter-body li {
+    font-size: 0.9rem; color: var(--text-muted);
+    margin-bottom: 0.4rem; line-height: 1.9;
+  }
+
+  /* Blockquote */
+  blockquote {
+    background: var(--quote-bg);
+    border-right: 4px solid var(--quote-border);
+    border-radius: 0 8px 8px 0;
+    padding: 1rem 1.2rem;
+    margin: 1.5rem 0;
+    color: var(--text-muted);
+    font-family: 'Amiri', serif;
+    font-size: 1rem; line-height: 2;
+  }
+
+  /* Key Points */
+  .key-points {
+    background: var(--key-bg);
+    border: 1px solid var(--key-border);
+    border-radius: 8px;
+    padding: 1.2rem 1.5rem;
+    margin: 2rem 0;
+  }
+  .key-points-title {
+    font-weight: 700; font-size: 0.85rem;
+    color: var(--key-border); margin-bottom: 0.8rem;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .key-points ul { list-style: none; padding: 0; }
+  .key-points li {
+    font-size: 0.88rem; color: var(--text-muted);
+    padding: 0.3rem 0;
+    display: flex; gap: 8px; align-items: flex-start;
+  }
+  .key-points li::before { content: '✦'; color: var(--key-border); flex-shrink: 0; margin-top: 2px; }
+
+  /* Fire Quotes */
+  .fire-quotes {
+    background: var(--fire-bg);
+    border: 1px solid var(--fire-border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+  }
+  .fire-title {
+    font-weight: 900; font-size: 1rem;
+    color: var(--fire); margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .fire-item {
+    background: var(--surface);
+    border-radius: 6px;
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.7rem;
+    border-right: 3px solid var(--fire);
+    font-family: 'Amiri', serif;
+    font-size: 0.95rem; line-height: 2;
+    color: var(--text);
+  }
+  .fire-item:last-child { margin-bottom: 0; }
+  .fire-ref {
+    font-size: 0.75rem; color: var(--text-light);
+    margin-top: 0.3rem; font-family: 'Cairo', sans-serif;
+  }
+
+  /* Questions List */
+  .questions-section { }
+  .gospel-block {
+    margin-bottom: 2rem;
+  }
+  .gospel-title {
+    font-family: 'Amiri', serif;
+    font-size: 1.4rem; color: var(--accent2);
+    margin-bottom: 1rem;
+    padding: 0.5rem 1rem;
+    background: var(--surface2);
+    border-radius: 6px;
+    border-right: 4px solid var(--accent2);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .gospel-count {
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.8rem; color: var(--text-light);
+    font-weight: 400;
+  }
+  .question-item {
+    display: flex; gap: 0.8rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.88rem;
+    align-items: flex-start;
+  }
+  .question-item:last-child { border-bottom: none; }
+  .q-num {
+    font-weight: 700; color: var(--accent2);
+    min-width: 28px; text-align: left;
+    font-size: 0.75rem; margin-top: 3px;
+    flex-shrink: 0;
+  }
+  .q-text { color: var(--text-muted); line-height: 1.9; }
+  .q-ref { font-size: 0.72rem; color: var(--text-light); white-space: nowrap; margin-top: 2px; }
+
+  /* Stats Banner */
+  .stats-banner {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem; margin: 2rem 0;
+  }
+  .stat-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px; padding: 1rem;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Amiri', serif;
+    font-size: 1.8rem; font-weight: 700;
+    color: var(--accent); display: block;
+  }
+  .stat-label { font-size: 0.75rem; color: var(--text-light); }
+
+  /* Divider */
+  .divider {
+    width: 100%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border2), transparent);
+    margin: 2rem 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    main { padding: 1rem 0.8rem 3rem; }
+    .chapter-header { padding: 1.5rem; }
+    .chapter-body { padding: 1.5rem; }
+    .cover h1 { font-size: 2rem; }
+    .cover { padding: 2.5rem 1.2rem; }
+    #toc-panel { width: 280px; }
+    .stats-banner { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<nav>
+  <span class="nav-brand">٣٤٠ سؤالاً سألها يسوع</span>
+  <div class="nav-controls">
+    <button class="nav-btn" id="theme-toggle" title="تبديل المظهر">🌙</button>
+    <button class="nav-btn" onclick="openTOC()">📑 الفهرس</button>
+  </div>
+</nav>
+
+<div id="toc-overlay" onclick="closeTOC()"></div>
+<div id="toc-panel">
+  <h2>📑 فهرس المحتويات <button id="close-toc" onclick="closeTOC()">✕</button></h2>
+  <ul class="toc-list">
+    <li><a href="#cover">📖 الغلاف</a></li>
+    <li><a href="#preface">مقدمة الكتاب</a></li>
+    <li><a href="#foreword">تصدير: شون ماكداول</a></li>
+    <li><a href="#questions-list">قائمة الأسئلة الكاملة</a></li>
+    <li class="toc-sub"><a href="#matthew">متى: ١٠٩ أسئلة</a></li>
+    <li class="toc-sub"><a href="#mark">مرقس: ٦٨ سؤالاً</a></li>
+    <li class="toc-sub"><a href="#luke">لوقا: ١٠٧ أسئلة</a></li>
+    <li class="toc-sub"><a href="#john">يوحنا: ٥٥ سؤالاً</a></li>
+    <li class="toc-sub"><a href="#acts">أعمال: ١ سؤال</a></li>
+    <li><a href="#ch1">الفصل ١: ماذا تتعلم من يسوع؟</a></li>
+    <li><a href="#ch2">الفصل ٢: يسوع المعلّم الأعظم</a></li>
+    <li><a href="#ch3">الفصل ٣: سؤال صعب</a></li>
+    <li><a href="#ch4">الفصل ٤: لماذا لم يتوقف عن السؤال؟</a></li>
+    <li><a href="#ch5">الفصل ٥: التعلّم من السيد</a></li>
+    <li><a href="#ch6">الفصل ٦: هل تحبني؟</a></li>
+    <li><a href="#ch7">الفصل ٧: ماذا تطلب؟</a></li>
+    <li><a href="#ch8">الفصل ٨: إلهي لماذا تركتني؟</a></li>
+    <li><a href="#ch9">الفصل ٩: يسوع كان يعلم ومع ذلك سأل</a></li>
+    <li><a href="#ch10">الفصل ١٠: أسئلة أحبها</a></li>
+    <li><a href="#ch11">الفصل ١١: القيادة بالأسئلة</a></li>
+    <li><a href="#ch12">الفصل ١٢: سؤالي المفضل</a></li>
+    <li><a href="#ch13">الفصل ١٣: من يقول الناس أني أنا؟</a></li>
+    <li><a href="#ch14">الفصل ١٤: الأسئلة تصنع الصداقات</a></li>
+    <li><a href="#ch15">الفصل ١٥: أسئلة أسكتت الفريسيين</a></li>
+    <li><a href="#ch16">الفصل ١٦: القيادة بالأسئلة - استراتيجية بيبلية</a></li>
+  </ul>
+</div>
+
+<main>
+
+<!-- COVER -->
+<section class="cover" id="cover">
+  <span class="cover-icon">✦</span>
+  <h1>٣٤٠ سؤالاً<br>سألها يسوع</h1>
+  <div class="cover-divider"></div>
+  <p class="cover-subtitle">الكتاب المرجعي الشامل لأسئلة يسوع في الأناجيل الأربعة وسفر الأعمال<br>مع تحليل عميق لفلسفة القيادة بالأسئلة</p>
+  <p class="cover-author">بقلم: بوب تييدي<br>مع مساهمات من ١٢ خبيراً عالمياً</p>
+  <div class="cover-tags">
+    <span class="tag">قيادة</span>
+    <span class="tag">تواصل</span>
+    <span class="tag">إيمان</span>
+    <span class="tag">أسئلة</span>
+    <span class="tag">تنمية ذاتية</span>
+  </div>
+
+  <div class="stats-banner" style="margin-top:2rem;">
+    <div class="stat-card"><span class="stat-num">٣٤٠</span><span class="stat-label">سؤالاً في الأناجيل</span></div>
+    <div class="stat-card"><span class="stat-num">٤٠×</span><span class="stat-label">أكثر سؤالاً من إجابةً</span></div>
+    <div class="stat-card"><span class="stat-num">١٦</span><span class="stat-label">فصلاً تحليلياً</span></div>
+    <div class="stat-card"><span class="stat-num">١٢</span><span class="stat-label">مساهماً عالمياً</span></div>
+  </div>
+</section>
+
+<!-- PREFACE -->
+<section class="chapter" id="preface">
+  <div class="chapter-header">
+    <span class="chapter-num">مقدمة</span>
+    <h1>لماذا ٣٤٠ سؤالاً؟</h1>
+    <p class="author">بوب تييدي</p>
+  </div>
+  <div class="chapter-body">
+    <div class="tldr">
+      <div class="tldr-title">⚡ الخلاصة السريعة</div>
+      <ul>
+        <li>الطبعة السابقة كانت ٣٣٩ سؤالاً — أحد القراء نبّه إلى سؤال مفقود في سفر الأعمال</li>
+        <li>السؤال المضاف: "شاول شاول لماذا تضطهدني؟" (أعمال ٩:٤)</li>
+        <li>الكتاب يجمع كل أسئلة يسوع من متى ومرقس ولوقا ويوحنا وأعمال الرسل</li>
+        <li>١٦ فصلاً جديداً بمشاركة ١٢ مساهماً من أنحاء العالم</li>
+      </ul>
+    </div>
+    <p>بدأ هذا الكتاب بـ<strong>٣٣٩ سؤالاً</strong>، ثم اكتشف المؤلف — بفضل أحد القراء — أنه أهمل سفر أعمال الرسل. السؤال المفقود كان سؤال يسوع لشاول في طريق دمشق. هذا الاكتشاف يعكس فلسفة الكتاب ذاته: الأسئلة تكشف ما لم نره بعد.</p>
+
+    <div class="fire-quotes">
+      <div class="fire-title">🔥 أقوى الأفكار والجمل</div>
+      <div class="fire-item">قلب هذا الكتاب هو قائمة ٣٤٠ سؤالاً سألها يسوع كما وثّقها متى ومرقس ولوقا ويوحنا — أسئلة غيّرت التاريخ ولا تزال تُغيّر الأرواح حتى اليوم.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOREWORD -->
+<section class="chapter" id="foreword">
+  <div class="chapter-header">
+    <span class="chapter-num">تصدير</span>
+    <h1>سؤال واحد يغيّر حياة</h1>
+    <p class="author">شون ماكداول، دكتوراه — أستاذ في جامعة بيولا</p>
+  </div>
+  <div class="chapter-body">
+    <div class="tldr">
+      <div class="tldr-title">⚡ الخلاصة السريعة</div>
+      <ul>
+        <li>يسوع هو أعظم مواصل في التاريخ — طريقته: قصص + أسئلة</li>
+        <li>أسئلته غيّرت مليارات الأرواح عبر الأجيال</li>
+        <li>الأسئلة تكشف المعتقدات وتبني العلاقات وتدعو إلى التفكير</li>
+        <li>الأسئلة لا تدفع إلى الدفاعية — الإجابات تفعل ذلك</li>
+        <li>الكتاب لكل إنسان، مؤمناً كان أم لا</li>
+      </ul>
+    </div>
+
+    <h2>ثلاثة أسئلة غيّرت العالم</h2>
+    <div class="question-item" style="border:none; padding: 0.8rem 0; border-right: 3px solid var(--accent2); padding-right: 1rem; margin-bottom: 0.8rem;">
+      <div class="q-text">
+        <strong>"من تقول أنت أني أنا؟"</strong> — أجاب عنه أكثر من ٢ مليار شخص اليوم بـ"ابن الله الحي". لا يوجد سؤال آخر له هذا الأثر على مسار الحياة والأمل للأبدية.
+      </div>
+    </div>
+    <div class="question-item" style="border:none; padding: 0.8rem 0; border-right: 3px solid var(--accent2); padding-right: 1rem; margin-bottom: 0.8rem;">
+      <div class="q-text">
+        <strong>"إن كنتم تحبون من يحبونكم فأي فضل لكم؟"</strong> — وسّع هذا السؤال واجب المحبة ليشمل الأعداء لا الأصدقاء فقط.
+      </div>
+    </div>
+    <div class="question-item" style="border:none; padding: 0.8rem 0; border-right: 3px solid var(--accent2); padding-right: 1rem;">
+      <div class="q-text">
+        <strong>"ماذا ينتفع الإنسان لو ربح العالم كله وخسر نفسه؟"</strong> — حمل هذا السؤال ملايين البشر على مراجعة قيمهم وتغيير مسار حياتهم.
+      </div>
+    </div>
+
+    <h2>لماذا الأسئلة قوية؟</h2>
+    <p><strong>أولاً: الوضوح.</strong> الأسئلة تكشف ما في قلب الإنسان وما يحرّكه من أعماقه. "الغرض في قلب الإنسان كمياه عميقة، والرجل الفهيم يستخرجه." (أمثال ٢٠:٥)</p>
+    <p><strong>ثانياً: بناء العلاقات.</strong> الأسئلة تدعو إلى الإصغاء، والإصغاء يوحّد القلوب. العلاقات هي المنصة التي نؤثر من خلالها في حياة الآخرين.</p>
+    <p><strong>ثالثاً: إشراك العقل.</strong> حين يُقال لنا ما نؤمن به ندافع عن أنفسنا، أما السؤال فيدعونا إلى التفكير بحرية دون تهديد.</p>
+
+    <div class="key-points">
+      <div class="key-points-title">💡 نقاط جوهرية</div>
+      <ul>
+        <li>الأسئلة لا تؤدي إلى الدفاعية — بل تفتح الباب أمام إعادة النظر</li>
+        <li>يسوع كان أكثر ميلاً للسؤال من الإجابة بمقدار ٤٠ ضعفاً</li>
+        <li>الكتاب سيغيّرك قبل أن يغيّر العالم من حولك</li>
+      </ul>
+    </div>
+
+    <div class="fire-quotes">
+      <div class="fire-title">🔥 أقوى الأفكار والجمل</div>
+      <div class="fire-item">قبل أن نغيّر العالم من حولنا، نحتاج أن ننظر إلى داخلنا. أعِدّ نفسك. هذا الكتاب سيُشجّعك ويُجهّزك ويُزعزعك لمواجهة أهم الأسئلة التي طُرحت في التاريخ.</div>
+      <div class="fire-item">يسوع لم يكن يُغيّر العالم بالأوامر والإجابات فقط، بل بالأسئلة التي تجعل الآخرين يكتشفون الحقيقة بأنفسهم.</div>
+    </div>
+  </div>
+</section>
+
+<!-- QUESTIONS LIST -->
+<section class="chapter" id="questions-list">
+  <div class="chapter-header">
+    <span class="chapter-num">المرجع الكامل</span>
+    <h1>٣٤٠ سؤالاً سألها يسوع</h1>
+    <p class="author">تجميع: بوب تييدي</p>
+  </div>
+  <div class="chapter-body">
+    <div class="tldr">
+      <div class="tldr-title">⚡ نظرة عامة</div>
+      <ul>
+        <li>متى: ١٠٩ أسئلة — الأكثر في الأناجيل</li>
+        <li>مرقس: ٦٨ سؤالاً — أقصر وأكثر مباشرة</li>
+        <li>لوقا: ١٠٧ أسئلة — أوسع تنوعاً في السياقات</li>
+        <li>يوحنا: ٥٥ سؤالاً — أعمق في البُعد اللاهوتي</li>
+        <li>أعمال: سؤال واحد يُغيّر حياة رجل بأكملها</li>
+      </ul>
+    </div>
+
+    <!-- MATTHEW -->
+    <div class="gospel-block" id="matthew">
+      <div class="gospel-title">
+        <span>📖 إنجيل متى</span>
+        <span class="gospel-count">١٠٩ سؤالاً</span>
+      </div>
+
+      <div class="question-item"><span class="q-num">١</span><div><div class="q-text">إن فسد الملح فبماذا يُملَّح؟</div><div class="q-ref">متى ٥:١٣</div></div></div>
+      <div class="question-item"><span class="q-num">٢</span><div><div class="q-text">إن أحببتم من يحبونكم فأي أجر لكم؟</div><div class="q-ref">متى ٥:٤٦</div></div></div>
+      <div class="question-item"><span class="q-num">٣</span><div><div class="q-text">أليس العشارون يفعلون ذلك أيضاً؟</div><div class="q-ref">متى ٥:٤٦</div></div></div>
+      <div class="question-item"><span class="q-num">٤</span><div><div class="q-text">وإن سلّمتم على إخوتكم فقط فأي فضل تصنعون؟</div><div class="q-ref">متى ٥:٤٧</div></div></div>
+      <div class="question-item"><span class="q-num">٥</span><div><div class="q-text">أليس الأمميون يفعلون ذلك أيضاً؟</div><div class="q-ref">متى ٥:٤٧</div></div></div>
+      <div class="question-item"><span class="q-num">٦</span><div><div class="q-text">أليست النفس أفضل من الطعام، والجسد من اللباس؟</div><div class="q-ref">متى ٦:٢٥</div></div></div>
+      <div class="question-item"><span class="q-num">٧</span><div><div class="q-text">ألستم أنتم بالحري أفضل منها (من الطيور)؟</div><div class="q-ref">متى ٦:٢٦</div></div></div>
+      <div class="question-item"><span class="q-num">٨</span><div><div class="q-text">من منكم إذا اهتمّ يقدر أن يزيد على قامته ذراعاً واحدة؟</div><div class="q-ref">متى ٦:٢٧</div></div></div>
+      <div class="question-item"><span class="q-num">٩</span><div><div class="q-text">ولماذا تهتمون باللباس؟</div><div class="q-ref">متى ٦:٢٨</div></div></div>
+      <div class="question-item"><span class="q-num">١٠</span><div><div class="q-text">أفلا يلبسكم هو بالأولى كثيراً أيها القليلو الإيمان؟</div><div class="q-ref">متى ٦:٣٠</div></div></div>
+      <div class="question-item"><span class="q-num">١١-١٣</span><div><div class="q-text">ماذا نأكل؟ وماذا نشرب؟ وبماذا نلبس؟ (ثلاثة أسئلة)</div><div class="q-ref">متى ٦:٣١</div></div></div>
+      <div class="question-item"><span class="q-num">١٤</span><div><div class="q-text">ولماذا تنظر إلى القذى في عين أخيك وأنت لا تحسّ بالخشبة في عينك؟</div><div class="q-ref">متى ٧:٣</div></div></div>
+      <div class="question-item"><span class="q-num">١٥</span><div><div class="q-text">كيف تقول لأخيك دعني أُخرج القذى من عينك وها الخشبة في عينك؟</div><div class="q-ref">متى ٧:٤</div></div></div>
+      <div class="question-item"><span class="q-num">١٦-١٧</span><div><div class="q-text">أيّ إنسان منكم إذا سأله ابنه خبزاً يعطيه حجراً؟ أو سمكة يعطيه حية؟</div><div class="q-ref">متى ٧:٩-١٠</div></div></div>
+      <div class="question-item"><span class="q-num">١٨</span><div><div class="q-text">هل يجتنون من الشوك عنباً أو من الحسك تيناً؟</div><div class="q-ref">متى ٧:١٦</div></div></div>
+      <div class="question-item"><span class="q-num">٢٠</span><div><div class="q-text">لماذا أنتم خائفون يا قليلي الإيمان؟</div><div class="q-ref">متى ٨:٢٦</div></div></div>
+      <div class="question-item"><span class="q-num">٢٢</span><div><div class="q-text">لماذا تُفكّرون بالشرّ في قلوبكم؟</div><div class="q-ref">متى ٩:٤</div></div></div>
+      <div class="question-item"><span class="q-num">٢٣</span><div><div class="q-text">أيّما أيسر: أن يُقال مغفورة خطاياك، أم أن يُقال قم وامشِ؟</div><div class="q-ref">متى ٩:٥</div></div></div>
+      <div class="question-item"><span class="q-num">٢٥</span><div><div class="q-text">هل تؤمنون أني أستطيع أن أفعل هذا؟</div><div class="q-ref">متى ٩:٢٨</div></div></div>
+      <div class="question-item"><span class="q-num">٣٣</span><div><div class="q-text">بمن أشبّه هذا الجيل؟</div><div class="q-ref">متى ١١:١٦</div></div></div>
+      <div class="question-item"><span class="q-num">٣٨</span><div><div class="q-text">إن كان شيطان يُخرج شيطاناً فقد انقسم على نفسه، فكيف تثبت مملكته؟</div><div class="q-ref">متى ١٢:٢٦</div></div></div>
+      <div class="question-item"><span class="q-num">٤٦</span><div><div class="q-text">يا قليل الإيمان لماذا شككت؟</div><div class="q-ref">متى ١٤:٣١</div></div></div>
+      <div class="question-item"><span class="q-num">٥٦</span><div><div class="q-text">من يقول الناس أن ابن الإنسان هو؟</div><div class="q-ref">متى ١٦:١٣</div></div></div>
+      <div class="question-item"><span class="q-num">٥٧-٥٨</span><div><div class="q-text">وأنتم من تقولون أني أنا؟</div><div class="q-ref">متى ١٦:١٥</div></div></div>
+      <div class="question-item"><span class="q-num">٥٩</span><div><div class="q-text">ماذا ينتفع الإنسان لو ربح العالم كله وخسر نفسه؟</div><div class="q-ref">متى ١٦:٢٦</div></div></div>
+      <div class="question-item"><span class="q-num">٦٥</span><div><div class="q-text">ما رأيكم؟</div><div class="q-ref">متى ١٨:١٢</div></div></div>
+      <div class="question-item"><span class="q-num">٦٦</span><div><div class="q-text">إن كان لإنسان مئة خروف وضلّ أحدها، أفلا يدع التسعة والتسعين ويذهب يطلب الضال؟</div><div class="q-ref">متى ١٨:١٢</div></div></div>
+      <div class="question-item"><span class="q-num">٦٧</span><div><div class="q-text">أما كان ينبغي أن ترحم أنت أيضاً رفيقك كما رحمتك أنا؟</div><div class="q-ref">متى ١٨:٣٣</div></div></div>
+      <div class="question-item"><span class="q-num">٧٤</span><div><div class="q-text">ماذا تريدون؟</div><div class="q-ref">متى ٢٠:٢١</div></div></div>
+      <div class="question-item"><span class="q-num">٧٦</span><div><div class="q-text">ماذا تريدان أن أفعل لكما؟</div><div class="q-ref">متى ٢٠:٣٢</div></div></div>
+      <div class="question-item"><span class="q-num">٨٩</span><div><div class="q-text">ما رأيكم في المسيح؟ ابن من هو؟</div><div class="q-ref">متى ٢٢:٤٢</div></div></div>
+      <div class="question-item"><span class="q-num">٩٣</span><div><div class="q-text">أيّهما أعظم: الذهب، أم الهيكل الذي يُقدّس الذهب؟</div><div class="q-ref">متى ٢٣:١٧</div></div></div>
+      <div class="question-item"><span class="q-num">٩٥</span><div><div class="q-text">يا أفاعي، يا أولاد الأفاعي كيف تهربون من دينونة جهنم؟</div><div class="q-ref">متى ٢٣:٣٣</div></div></div>
+      <div class="question-item"><span class="q-num">١٠٤</span><div><div class="q-text">هكذا ما قدرتم أن تسهروا معي ساعة واحدة؟</div><div class="q-ref">متى ٢٦:٤٠</div></div></div>
+      <div class="question-item"><span class="q-num">١٠٦</span><div><div class="q-text">أم تظن أني لا أستطيع أن أطلب من أبي فيُقيم لي الآن أكثر من اثني عشر جيشاً من الملائكة؟</div><div class="q-ref">متى ٢٦:٥٣</div></div></div>
+      <div class="question-item"><span class="q-num">١٠٩</span><div><div class="q-text">إلهي إلهي لماذا تركتني؟</div><div class="q-ref">متى ٢٧:٤٦ ⭐</div></div></div>
+    </div>
+
+    <!-- MARK -->
+    <div class="gospel-block" id="mark">
+      <div class="gospel-title">
+        <span>📖 إنجيل مرقس</span>
+        <span class="gospel-count">٦٨ سؤالاً</span>
+      </div>
+
+      <div class="question-item"><span class="q-num">١</span><div><div class="q-text">لماذا تفكّرون بهذا في قلوبكم؟</div><div class="q-ref">مرقس ٢:٨</div></div></div>
+      <div class="question-item"><span class="q-num">٢</span><div><div class="q-text">أيّما أيسر: أن يُقال مغفورة خطاياك أم قم وامشِ؟</div><div class="q-ref">مرقس ٢:٩</div></div></div>
+      <div class="question-item"><span class="q-num">٥</span><div><div class="q-text">أيّ شيء يجوز في السبت: الخير أم الشر؟ أن يُحيَى نفس أم يُقتَل؟</div><div class="q-ref">مرقس ٣:٤</div></div></div>
+      <div class="question-item"><span class="q-num">٧</span><div><div class="q-text">من هي أمي وإخوتي؟</div><div class="q-ref">مرقس ٣:٣٣</div></div></div>
+      <div class="question-item"><span class="q-num">١٣</span><div><div class="q-text">لماذا أنتم خائفون هكذا؟ كيف لا يكون لكم إيمان؟</div><div class="q-ref">مرقس ٤:٤٠</div></div></div>
+      <div class="question-item"><span class="q-num">١٥</span><div><div class="q-text">ما اسمك؟</div><div class="q-ref">مرقس ٥:٩</div></div></div>
+      <div class="question-item"><span class="q-num">١٦</span><div><div class="q-text">من لمس ثيابي؟</div><div class="q-ref">مرقس ٥:٣٠</div></div></div>
+      <div class="question-item"><span class="q-num">٢٢</span><div><div class="q-text">لماذا يطلب هذا الجيل آية؟</div><div class="q-ref">مرقس ٨:١٢</div></div></div>
+      <div class="question-item"><span class="q-num">٢٤</span><div><div class="q-text">أما تزالون لا تفهمون ولا تفقهون؟</div><div class="q-ref">مرقس ٨:١٧</div></div></div>
+      <div class="question-item"><span class="q-num">٢٥</span><div><div class="q-text">هل تقسّت قلوبكم؟</div><div class="q-ref">مرقس ٨:١٧</div></div></div>
+      <div class="question-item"><span class="q-num">٢٦</span><div><div class="q-text">ألكم عيون ولا تبصرون؟ وآذان ولا تسمعون؟</div><div class="q-ref">مرقس ٨:١٨ ⭐</div></div></div>
+      <div class="question-item"><span class="q-num">٣٢-٣٤</span><div><div class="q-text">من يقول الناس أني أنا؟ ... وأنتم من تقولون أني أنا؟</div><div class="q-ref">مرقس ٨:٢٧-٢٩ ⭐</div></div></div>
+      <div class="question-item"><span class="q-num">٣٥</span><div><div class="q-text">ماذا ينتفع الإنسان لو ربح العالم كله وخسر نفسه؟</div><div class="q-ref">مرقس ٨:٣٦ ⭐</div></div></div>
+      <div class="question-item"><span class="q-num">٤٦</span><div><div class="q-text">ما الذي تقولون لمن سألكم "لماذا تحلّون الجحش؟"</div><div class="q-ref">مرقس ١١:٣</div></div></div>
+      <div class="question-item"><span class="q-num">٥٢</span><div><div class="q-text">معمودية يوحنا — أكانت من السماء أم من الناس؟</div><div class="q-ref">مرقس ١١:٣٠ ⭐</div></div></div>
+      <div class="question-item"><span class="q-num">٦٦</span><div><div class="q-text">أما تستطيع أن تسهر ساعة واحدة؟</div><div class="q-ref">مرقس ١٤:٣٧</div></div></div>
+      <div class="question-item"><span class="q-num">٦٨</span><div><div class="q-text">كأن على لص خرجتم بسيوف وعصي لتأخذوني؟</div><div class="q-ref">مرقس ١٤:٤٨</div></div></div>
+    </div>
+
+    <!-- LUKE -->
+    <div class="gospel-block" id="luke">
+      <div class="gospel-title">
+        <span>📖 إنجيل لوقا</span>
+        <span class="gospel-count">١٠٧ أسئلة</span>
+      </div>
+
+      <div class="question-item"><span class="q-num">١</span><div><div class="q-text">لماذا كنتم تطلبوني؟ أما علمتم أنه ينبغي أن أكون في ما لأبي؟</div><div class="q-ref">لوقا ٢:٤٩ ⭐</div></div></div>
+      <div class="question-item"><span class="q-num">٤</span><div><div class="q-text">أيّما أيسر: أن يُقال مغفورة خطاياك، أم قم وامشِ؟</div><div class="q-ref">لوقا ٥:٢٣</div></div></div>
+      <div class="question-item"><span class="q-num">٧</span><div><div class="q-text">أسألكم: أيّ شيء يجوز في السبت: الإحسان أم الإساءة؟</div><div class="q-ref">لوقا ٦:٩</div></div></div>
+      <div class="question-item"><span class="q-num">٨-١٠</span><div><div class="q-text">إن أحببتم من يحبونكم فأي فضل لكم؟ وإن أحسنتم إلى من يحسن إليكم؟ وإن أقرضتم من ترجون منه الرد؟</div><div class="q-ref">لوقا ٦:٣٢-٣٤</div></div></div>
+      <div class="question-item"><span class="q-num">١١</span><div><div class="q-text">هل يستطيع أعمى أن يهدي أعمى؟ أما يقعان كلاهما في الحفرة؟</div><div class="q-ref">لوقا ٦:٣٩</div></div></div>
+      <div class="question-item"><span class="q-num">١٥</span><div><div class="q-text">لماذا تدعونني يا رب يا رب ولا تفعلون ما أقوله؟</div><div class="q-ref">لوقا ٦:٤٦ ⭐</div></div></div>
+      <div class="question-item"><span class="q-num">٢٤-٢٥</span><div><div class="q-text">رجلان كانا مديونَين... فأيّهما يُحبّه أكثر؟</div><div class="q-ref">لوقا ٧:٤١-٤٢</div></div></div>
+      <div class="question-item"><span class="q-num">٢٥</span><div><div class="q-text">هل ترى هذه المرأة؟</div><div class="q-ref">لوقا ٧:٤٤ ⭐</div></div></div>
+      <div class="question-item"><span class="q-num">٢٦</span><div><div class="q-text">أين إيمانكم؟</div><div class="q-ref">لوقا ٨:٢٥</div></div></div>
+      <div class="question-item"><span class="q-num">٣٠-٣١</span><div><div class="q-text">من تقول الجموع أني أنا؟ ... وأنتم من تقولون أني أنا؟</div><div class="q-ref">لوقا ٩:١٨-٢٠ ⭐</div></div></div>
+      <div class="question-item"><span class="q-num">٣٢</span><div><div class="q-text">ماذا ينتفع الإنسان لو ربح العالم كله وخسر نفسه أو خسر نفسه؟</div><div class="q-ref">لوقا ٩:٢٥</div></div></div>
+      <div class="question-item"><span class="q-num">٣٥-٣٦</span><div><div class="q-text">ماذا مكتوب في الشريعة؟ كيف تقرأ؟</div><div class="q-ref">لوقا ١٠:٢٦</div></div></div>
+      <div class="question-item"><span class="q-num">٣٧</span><div><div class="q-text">فأيّ هؤلاء الثلاثة تراه صار قريباً للذي وقع بين اللصوص؟</div><div class="q-ref">لوقا ١٠:٣٦ ⭐</div></div></div>
+      <div class="question-item"><span class="q-num">٤٧</span><div><div class="q-text">من منكم إذا اهتمّ يقدر أن يزيد على قامته ذراعاً؟</div><div class="q-ref">لوقا ١٢:٢٥</div></div></div>
+      <div class="question-item"><span class="q-num">٥٠</span><div><div class="q-text">أتظنون أني جئت لأُعطي سلاماً في الأرض؟</div><div class="q-ref">لوقا ١٢:٥١</div></div></div>
+      <div class="question-item"><span class="q-num">٥٢</span><div><div class="q-text">لماذا لا تحكمون من أنفسكم على ما هو عدل؟</div><div class="q-ref">لوقا ١٢:٥٧</div></div></div>
+      <div class="question-item"><span class="q-num">٥٦</span><div><div class="q-text">أيّها المرائون! أما يحلّ كل واحد منكم ثوره أو حماره في السبت من المذود ويمضي به ليسقيه؟</div><div class="q-ref">لوقا ١٣:١٥</div></div></div>
+      <div class="question-item"><span class="q-num">٦٦</span><div><div class="q-text">إن كان لإنسان مئة خروف وضلّ واحدة منها، أفلا يترك التسعة والتسعين ويذهب يطلب الضالة؟</div><div class="q-ref">لوقا ١٥:٤ ⭐</div></div></div>
+      <div class="question-item"><span class="q-num">٦٧</span><div><div class="q-text">أيّة امرأة لها عشرة دراهم وأضاعت درهماً لا توقد سراجاً وتكنس البيت وتطلب باجتهاد حتى تجده؟</div><div class="q-ref">لوقا ١٥:٨</div></div></div>
+      <div class="question-item"><span class="q-num">٧٧</span><div><div class="q-text">أما طُهّر العشرة؟ فأين التسعة؟</div><div class="q-ref">لوقا ١٧:١٧ ⭐</div></div></div>
+      <div class="question-item"><span class="q-num">٨٢</span><div><div class="q-text">لكن ابن الإنسان متى جاء هل يجد الإيمان على الأرض؟</div><div class="q-ref">لوقا ١٨:٨ ⭐</div></div></div>
+      <div class="question-item"><span class="q-num">١٠٠</span><div><div class="q-text">يا يهوذا، أبخبسة تسلّم ابن الإنسان؟</div><div class="q-ref">لوقا ٢٢:٤٨ ⭐</div></div></div>
+      <div class="question-item"><span class="q-num">١٠٥</span><div><div class="q-text">أما كان ينبغي المسيح أن يتألم بهذا ويدخل إلى مجده؟</div><div class="q-ref">لوقا ٢٤:٢٦</div></div></div>
+      <div class="question-item"><span class="q-num">١٠٦</span><div><div class="q-text">لماذا تضطربون وتخطر في قلوبكم أفكار؟</div><div class="q-ref">لوقا ٢٤:٣٨</div></div></div>
+    </div>
+
+    <!-- JOHN -->
+    <div class="gospel-block" id="john">
+      <div class="gospel-title">
+        <span>📖 إنجيل يوحنا</span>
+        <span class="gospel-count">٥٥ سؤالاً</span>
+      </div>
+
+      <div class="question-item"><span class="q-num">١</span><div><div class="q-text">ماذا تطلبون؟</div><div class="q-ref">يوحنا ١:٣٨ ⭐</div></div></div>
+      <div class="question-item"><span class="q-num">٣</span><div><div class="q-text">أنت معلّم إسرائيل وهذه الأشياء لا تعلمها؟</div><div class="q-ref">يوحنا ٣:١٠</div></div></div>
+      <div class="question-item"><span class="q-num">٧</span><div><div class="q-text">هل تريد أن تبرأ؟</div><div class="q-ref">يوحنا ٥:٦ ⭐</div></div></div>
+      <div class="question-item"><span class="q-num">٨</span><div><div class="q-text">كيف تقدرون أن تؤمنوا وأنتم تقبلون مجداً بعضكم من بعض؟</div><div class="q-ref">يوحنا ٥:٤٤</div></div></div>
+      <div class="question-item"><span class="q-num">١١</span><div><div class="q-text">هل هذا يعثركم؟</div><div class="q-ref">يوحنا ٦:٦١</div></div></div>
+      <div class="question-item"><span class="q-num">١٢</span><div><div class="q-text">ألعلّكم أنتم أيضاً تريدون أن تمضوا؟</div><div class="q-ref">يوحنا ٦:٦٧ ⭐</div></div></div>
+      <div class="question-item"><span class="q-num">١٧</span><div><div class="q-text">يا امرأة أين هم؟ أما دانك أحد؟</div><div class="q-ref">يوحنا ٨:١٠</div></div></div>
+      <div class="question-item"><span class="q-num">٢٠</span><div><div class="q-text">من منكم يبكّتني على خطية؟</div><div class="q-ref">يوحنا ٨:٤٦ ⭐</div></div></div>
+      <div class="question-item"><span class="q-num">٢٨</span><div><div class="q-text">أنا أنا القيامة والحياة... أتؤمن بهذا؟</div><div class="q-ref">يوحنا ١١:٢٦ ⭐</div></div></div>
+      <div class="question-item"><span class="q-num">٢٩</span><div><div class="q-text">أين وضعتموه؟</div><div class="q-ref">يوحنا ١١:٣٤</div></div></div>
+      <div class="question-item"><span class="q-num">٣٣</span><div><div class="q-text">هل تعلمون ما صنعت بكم؟</div><div class="q-ref">يوحنا ١٣:١٢ ⭐</div></div></div>
+      <div class="question-item"><span class="q-num">٣٤</span><div><div class="q-text">أتبذل نفسك من أجلي؟</div><div class="q-ref">يوحنا ١٣:٣٨</div></div></div>
+      <div class="question-item"><span class="q-num">٣٦</span><div><div class="q-text">في هذا الزمن الطويل أنا معكم ولم تعرفني يا فيلبّس؟</div><div class="q-ref">يوحنا ١٤:٩ ⭐</div></div></div>
+      <div class="question-item"><span class="q-num">٤٢</span><div><div class="q-text">من تطلبون؟</div><div class="q-ref">يوحنا ١٨:٤</div></div></div>
+      <div class="question-item"><span class="q-num">٤٤</span><div><div class="q-text">الكأس التي أعطاني أبي أما أشربها؟</div><div class="q-ref">يوحنا ١٨:١١</div></div></div>
+      <div class="question-item"><span class="q-num">٤٧</span><div><div class="q-text">أعن نفسك تقول هذا، أم آخرون قالوا لك عني؟</div><div class="q-ref">يوحنا ١٨:٣٤</div></div></div>
+      <div class="question-item"><span class="q-num">٤٨-٤٩</span><div><div class="q-text">يا امرأة لماذا تبكين؟ من تطلبين؟</div><div class="q-ref">يوحنا ٢٠:١٥</div></div></div>
+      <div class="question-item"><span class="q-num">٥٠</span><div><div class="q-text">يا غلمان هل عندكم شيء من الإدام؟</div><div class="q-ref">يوحنا ٢١:٥</div></div></div>
+      <div class="question-item"><span class="q-num">٥١-٥٣</span><div><div class="q-text">يا سمعان بن يونا هل تحبّني أكثر من هؤلاء؟ (ثلاث مرات)</div><div class="q-ref">يوحنا ٢١:١٥-١٧ ⭐⭐</div></div></div>
+    </div>
+
+    <!-- ACTS -->
+    <div class="gospel-block" id="acts">
+      <div class="gospel-title">
+        <span>📖 سفر الأعمال</span>
+        <span class="gospel-count">١ سؤال</span>
+      </div>
+      <div class="question-item">
+        <span class="q-num">١</span>
+        <div>
+          <div class="q-text" style="font-family:'Amiri',serif; font-size:1.1rem; color:var(--text);">شاول شاول لماذا تضطهدني؟</div>
+          <div class="q-ref">أعمال ٩:٤ — هذا السؤال غيّر مسار التاريخ ⭐⭐⭐</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fire-quotes">
+      <div class="fire-title">🔥 أقوى أسئلة يسوع عبر الأناجيل</div>
+      <div class="fire-item">"وأنتم من تقولون أني أنا؟" — السؤال الأهم الذي طُرح في التاريخ<div class="fire-ref">متى ١٦:١٥ | مرقس ٨:٢٩ | لوقا ٩:٢٠</div></div>
+      <div class="fire-item">"ماذا ينتفع الإنسان لو ربح العالم كله وخسر نفسه؟" — تُعيد ترتيب الأولويات بالكامل<div class="fire-ref">متى ١٦:٢٦ | مرقس ٨:٣٦ | لوقا ٩:٢٥</div></div>
+      <div class="fire-item">"هل تريد أن تبرأ؟" — سؤال يكشف الإرادة الحقيقية قبل العلاج<div class="fire-ref">يوحنا ٥:٦</div></div>
+      <div class="fire-item">"ألعلّكم أيضاً تريدون أن تمضوا؟" — سؤال يكشف الولاء في ساعة الاختبار<div class="fire-ref">يوحنا ٦:٦٧</div></div>
+      <div class="fire-item">"إلهي إلهي لماذا تركتني؟" — السؤال الوحيد الذي وجّهه يسوع إلى الله<div class="fire-ref">متى ٢٧:٤٦</div></div>
+      <div class="fire-item">"أين التسعة؟" — سؤال يُعرّي نسيان الناس للنعمة<div class="fire-ref">لوقا ١٧:١٧</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 1 -->
+<section class="chapter" id="ch1">
+  <div class="chapter-header">
+    <span class="chapter-num">الفصل الأول</span>
+    <h1>ماذا تتعلم من يسوع عن طرح الأسئلة؟</h1>
+    <p class="author">بوب تييدي</p>
+  </div>
+  <div class="chapter-body">
+    <div class="tldr">
+      <div class="tldr-title">⚡ الخلاصة السريعة</div>
+      <ul>
+        <li>يسوع سأل ٣٤٠ سؤالاً رغم أنه كان يعرف كل الإجابات</li>
+        <li>الأسئلة أداة تواصل أقوى بكثير من الإجابات والتعليمات</li>
+        <li>يسوع استخدم أنواعاً متعددة من الأسئلة لأغراض مختلفة</li>
+        <li>السؤال الأفضل: "ما رأيك؟" — يُشرك الآخرين ويجعلهم يمتلكون نتائجهم بأنفسهم</li>
+        <li>الأسئلة تبني علاقات، وتدفع إلى التفكير، وتُحدث تحولاً حقيقياً</li>
+      </ul>
+    </div>
+
+    <h2>لماذا سأل يسوع كل هذه الأسئلة؟</h2>
+    <p>يسوع لم يكن يسأل لأنه لا يعرف الإجابات — فهو يعرف كل شيء. سأل لأن الأسئلة تصنع شيئاً لا تصنعه الإجابات: تُجبر الآخرين على التفكير، وتُولّد محادثات، وتجعل الناس يصلون بأنفسهم إلى قناعاتهم.</p>
+
+    <h2>أبرز أنواع الأسئلة التي طرحها يسوع</h2>
+
+    <h3>١. أسئلة تصنع التواصل الإنساني</h3>
+    <p>"هل تعطيني لأشرب؟" — طرحها على امرأة سامرية كسر بها الحواجز الاجتماعية والدينية دفعةً واحدة.</p>
+
+    <h3>٢. أسئلة تُحرّك القلب نحو المراجعة الذاتية</h3>
+    <p>"إن أحببتم من يحبونكم فأي فضل لكم؟" — تدفع إلى التفكير في ما هو أعلى من المعاملة بالمثل.</p>
+
+    <h3>٣. أسئلة تعالج القلق والخوف</h3>
+    <p>"من منكم بالاهتمام يقدر أن يزيد على عمره ساعة واحدة؟" — تضع القلق في منظوره الحقيقي.</p>
+
+    <h3>٤. أسئلة تكشف النفاق</h3>
+    <p>"لماذا تنظر القذى في عين أخيك وأنت لا تحسّ بالخشبة في عينك؟" — مرآة يرى فيها الإنسان نفسه.</p>
+
+    <h3>٥. أسئلة استهلالية "دافئة"</h3>
+    <p>"من يقول الناس أن ابن الإنسان هو؟" — يبدأ من الخارج قبل أن يصل إلى السؤال الحقيقي الشخصي.</p>
+
+    <h3>٦. أسئلة تُعيد ترتيب الأولويات</h3>
+    <p>"ماذا ينتفع الإنسان لو ربح العالم كله وخسر نفسه؟" — سؤال يُحرك محور الحياة.</p>
+
+    <h3>٧. أسئلة تُعيد تأهيل المنكسرين</h3>
+    <p>ثلاث مرات: "يا سمعان هل تحبني؟" — لكل إنكار يغفل عنه الناس، ثمة سؤال محبة يُعيد التأهيل.</p>
+
+    <div class="key-points">
+      <div class="key-points-title">💡 تطبيق عملي على القيادة</div>
+      <ul>
+        <li>ابدأ باستخدام "ما رأيك؟" بدلاً من إعطاء التعليمات مباشرة</li>
+        <li>اسأل "ماذا أيضاً؟" مراراً لتعميق الحوار</li>
+        <li>الأسئلة تُظهر الاحترام والاهتمام بأكثر مما تفعل الأوامر</li>
+        <li>قائد يقود بالأسئلة يكون فعّالاً بمقدار ١٠ أضعاف قائد يقود بالأوامر</li>
+      </ul>
+    </div>
+
+    <div class="fire-quotes">
+      <div class="fire-title">🔥 أقوى الأفكار والجمل</div>
+      <div class="fire-item">أنا أسأل كثيراً لأني لا أعرف الإجابات. يسوع لم يكن هكذا أبداً — كان يعرف كل شيء، ومع ذلك جعل الأسئلة محور تواصله مع الناس. هذا وحده يجب أن يُغيّر طريقة تعاملنا مع الآخرين.</div>
+      <div class="fire-item">حين يصل الناس إلى قناعاتهم بأنفسهم عبر أسئلتك، يمتلكونها بعمق لا يحدث عندما تُخبرهم بها مباشرةً.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 2 -->
+<section class="chapter" id="ch2">
+  <div class="chapter-header">
+    <span class="chapter-num">الفصل الثاني</span>
+    <h1>يسوع المعلّم الأعظم: ركيزتان لا ثالث لهما</h1>
+    <p class="author">بوب تييدي</p>
+  </div>
+  <div class="chapter-body">
+    <div class="tldr">
+      <div class="tldr-title">⚡ الخلاصة السريعة</div>
+      <ul>
+        <li>ركيزتا تواصل يسوع: القصص والأسئلة</li>
+        <li>القصص تعلق في الذاكرة بشكل استثنائي لا تفعله التعاليم المجردة</li>
+        <li>يسوع كان يعرف بنية الدماغ البشري لأنه خلقه</li>
+        <li>السؤال أقوى من الإخبار في تغيير القلوب</li>
+        <li>الحركة التي أسّسها لا تزال تضم مئات الملايين بعد ٢٠٠٠ عام</li>
+      </ul>
+    </div>
+
+    <div class="stats-banner">
+      <div class="stat-card"><span class="stat-num">القصص</span><span class="stat-label">تعلق في الذاكرة</span></div>
+      <div class="stat-card"><span class="stat-num">الأسئلة</span><span class="stat-label">تغيّر القلوب</span></div>
+    </div>
+
+    <h2>لماذا القصص؟</h2>
+    <p>القصص العظيمة لا تُنسى. تسمعها وتتذكرها بعد سنوات. يسوع كان يعرف كيف يعمل الدماغ الذي خلقه — ٩٧٪ من سكان فلسطين في زمنه لم يكونوا يجيدون القراءة. القصة وصلت إلى الجميع.</p>
+
+    <h2>لماذا الأسئلة؟</h2>
+    <p>يسوع أراد تغيير القلوب لا مجرد إخبار العقول. "دعني أسألك" أقوى بكثير من "دعني أُخبرك" في إحداث تحوّل حقيقي ودائم. السؤال يُشرك الإنسان في رحلة الاكتشاف بدلاً من أن يكون متلقياً سلبياً.</p>
+
+    <blockquote>
+      "لو أردتَ أن تعرف تصميم برنامج معقّد، ستعرف ١٠-١٥٪ منه. لكن المبرمج الذي كتبه يعرف ١٠٠٪ من قدراته. يسوع كتب الكود البشري — وأسئلته تعكس فهمه الكامل لكيفية عمل العقل والقلب البشري."
+    </blockquote>
+
+    <div class="fire-quotes">
+      <div class="fire-title">🔥 أقوى الأفكار والجمل</div>
+      <div class="fire-item">الحركة التي بدأها يسوع منذ أكثر من ألفي عام لا تزال تستقطب أعضاء جدداً حتى اليوم. لا حركة في التاريخ البشري حافظت على هذا الزخم — ما سرّه؟ قصص وأسئلة.</div>
+      <div class="fire-item">"دعني أسألك" أقوى من "دعني أُخبرك" في تغيير الحياة — يسوع عرف هذا وطبّقه في كل لقاءاته.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 3 -->
+<section class="chapter" id="ch3">
+  <div class="chapter-header">
+    <span class="chapter-num">الفصل الثالث</span>
+    <h1>سؤال صعب: من هو قريبي؟</h1>
+    <p class="author">بوب تييدي</p>
+  </div>
+  <div class="chapter-body">
+    <div class="tldr">
+      <div class="tldr-title">⚡ الخلاصة السريعة</div>
+      <ul>
+        <li>الخبير في الشريعة سأل "من هو قريبي؟" ليبرّر نفسه</li>
+        <li>يسوع ردّ بقصة السامري الصالح — جعل "العدو" هو البطل</li>
+        <li>السؤال الختامي "أيّ هؤلاء صار قريباً؟" كان سؤالاً صعباً حقاً</li>
+        <li>اليهود كانوا يكرهون السامريين كراهية عميقة — كانت الإجابة مؤلمة جداً</li>
+        <li>يسوع جعل المحاور يصل إلى الإجابة بنفسه بدلاً من إخباره بها</li>
+      </ul>
+    </div>
+
+    <h2>القصة خلف القصة</h2>
+    <p>لفهم عمق هذا السؤال، علينا أن نعرف أن اليهود في زمن يسوع كانوا يكرهون السامريين بعمق شديد — لدرجة أنهم كانوا يسلكون الطريق الأطول ليتجنبوا المرور بالسامرة. عندما قصّ يسوع قصة السامري الصالح وجعل السامري هو البطل، كان هذا كافياً لأن يُصدم سامعوه.</p>
+
+    <h2>الذكاء في السؤال</h2>
+    <p>بدلاً من أن يقول يسوع: "لذلك السامري هو القريب الجيد" — وهو ما كان صحيحاً ومباشراً — سأل: "أيّ هؤلاء الثلاثة تراه صار قريباً للذي وقع بين اللصوص؟" أجبر الخبير في الشريعة على أن ينطق هو بالإجابة التي يكرهها.</p>
+
+    <p>الخبير لم يستطع أن يقول "السامري" — قال بدلاً من ذلك: "الذي صنع معه الرحمة." وحتى في هذا التحاشي، اضطر إلى الاعتراف بالحقيقة.</p>
+
+    <div class="fire-quotes">
+      <div class="fire-title">🔥 أقوى الأفكار والجمل</div>
+      <div class="fire-item">يسوع كان يعلم أن قوّة الإجابة تتضاعف حين يصل إليها الإنسان بنفسه. السؤال الأخير في مثل السامري لم يكن سهلاً أبداً — كان سؤالاً يكسر حواجز الكراهية والتعصب في لحظة واحدة.</div>
+      <div class="fire-item">الحقيقة التي يقولها الإنسان بلسانه — حتى لو بمقاومة — تحفر أعمق بكثير من الحقيقة التي يسمعها من غيره.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 4 -->
+<section class="chapter" id="ch4">
+  <div class="chapter-header">
+    <span class="chapter-num">الفصل الرابع</span>
+    <h1>لماذا لم يتوقف يسوع عن السؤال؟</h1>
+    <p class="author">بيت وِهنر — كاتب بالنيويورك تايمز</p>
+  </div>
+  <div class="chapter-body">
+    <div class="tldr">
+      <div class="tldr-title">⚡ الخلاصة السريعة</div>
+      <ul>
+        <li>يسوع كان أكثر ميلاً للسؤال من الإجابة بـ٤٠ ضعفاً</li>
+        <li>كان أكثر ميلاً للإجابة غير المباشرة من المباشرة بـ٢٠ ضعفاً</li>
+        <li>الأسئلة كانت أداته في مواجهة الأعداء، ومساعدة الباحثين، وتعميق إيمان التلاميذ</li>
+        <li>الأمثال كانت متعددة الطبقات — تكشف الحقيقة لمن يطلبها وتُخفيها عمن لا يريدها</li>
+        <li>الأسئلة تدعونا للتفكير، الأمثال تدعونا لأن نشعر ونحبّ</li>
+      </ul>
+    </div>
+
+    <h2>إحصاءات مذهلة</h2>
+    <p>درس مارتن كوبنهيفر في كتابه "يسوع هو السؤال" أن يسوع كان <strong>٤٠ ضعفاً</strong> أكثر احتمالاً لطرح سؤال من الإجابة على سؤال. وكان <strong>٢٠ ضعفاً</strong> أكثر ميلاً للإجابة غير المباشرة من المباشرة.</p>
+
+    <h2>الأمثال: شعر دراما لا برهان فلسفي</h2>
+    <p>يصف اللاهوتي كينيث بيلي أن يسوع "خلق المعنى كمسرحي وشاعر لا كفيلسوف." أمثاله لها طبقات لا تنتهي — تُلهم الإنسان البسيط وتُعمّق تفكير العالم في آنٍ واحد.</p>
+
+    <p>"الحجج تُشكّل آراءنا، لكن القصص تُشكّل محبتنا" — هذا هو سر يسوع: أراد أن يُغيّر ما تحبّه قلوبنا لا فقط ما تعتقده عقولنا.</p>
+
+    <h2>الحرية في السؤال</h2>
+    <p>يسوع لم يُقدّم إجابات جاهزة لكل شيء — كان يثق بتمييز الإنسان. بأسئلته وأمثاله، كان يقول: "أنا أثق بك لتصل إلى الحقيقة بنفسك."</p>
+
+    <div class="fire-quotes">
+      <div class="fire-title">🔥 أقوى الأفكار والجمل</div>
+      <div class="fire-item">"يسوع كان يطلب قلوبنا لا مجرد عقولنا. أراد حياة متحوّلة لا مجرد عقول نمت." — ويليام فولّيلف</div>
+      <div class="fire-item">الأمثال والأسئلة تدعونا — وتُلزمنا — على التفكير والتأمّل. إنها لا تترك مكاناً للمرور السريع دون أثر.</div>
+      <div class="fire-item">يسوع لم يكن مُحاججاً يبحث عن انتصار فكري — كان طبيباً يبحث عن صحّة الروح.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 5 -->
+<section class="chapter" id="ch5">
+  <div class="chapter-header">
+    <span class="chapter-num">الفصل الخامس</span>
+    <h1>التعلّم من السيد: أربعة أساليب في طرح الأسئلة</h1>
+    <p class="author">أندي بانيستر</p>
+  </div>
+  <div class="chapter-body">
+    <div class="tldr">
+      <div class="tldr-title">⚡ الخلاصة السريعة</div>
+      <ul>
+        <li>الأسلوب ١: السؤال يكشف الافتراضات المخفية</li>
+        <li>الأسلوب ٢: السؤال يقلب الطاولة على من يريد الإيقاع بك</li>
+        <li>الأسلوب ٣: السؤال يكشف التناقضات في موقف الخصم</li>
+        <li>الأسلوب ٤: السؤال يُعيد توجيه الحوار نحو ما يهمّ فعلاً</li>
+        <li>الجواب الصحيح على السؤال الخطأ لا يُفيد</li>
+      </ul>
+    </div>
+
+    <h2>الأسلوب الأول: كشف الافتراضات</h2>
+    <p>حين سأل الشاب الغني: "أيها المعلم الصالح، ماذا أعمل لأرث الحياة الأبدية؟" — لم يُجب يسوع مباشرة. بل سأل: "لماذا تدعوني صالحاً؟ ليس أحد صالحاً إلا الله وحده." هذا السؤال كشف افتراضاً خطيراً: أن الخير يُكتسب بالأعمال وأن الإنسان قادر عليه بنفسه.</p>
+
+    <h2>الأسلوب الثاني: قلب الطاولة</h2>
+    <p>حين جاءه رؤساء الكهنة يسألونه عن سلطانه، أجابهم بسؤال: "معمودية يوحنا، من أين كانت؟ من السماء أم من الناس؟" هذا أوقعهم في مأزق لا مخرج منه — إن قالوا السماء فضحوا أنفسهم، وإن قالوا الناس خافوا الجمهور.</p>
+
+    <h2>الأسلوب الثالث: كشف التناقض</h2>
+    <p>في هيكل أورشليم: "كيف يقول الكتبة إن المسيح ابن داود؟ وداود نفسه يسمّيه رباً!" — هذا السؤال كشف تناقضاً لاهوتياً في عقيدة الفريسيين أنفسهم.</p>
+
+    <h2>الأسلوب الرابع: إعادة التوجيه</h2>
+    <p>حين سألوه إن كان يجوز دفع الجزية لقيصر، أمسك بدينار وسأل: "لمن هذه الصورة والكتابة؟" — ثم قال: "أعطوا ما لقيصر لقيصر وما لله لله." أعاد توجيه الحوار من سياسة إلى روحانية بسؤال عن صورة العملة.</p>
+
+    <div class="key-points">
+      <div class="key-points-title">💡 تطبيق في الحوارات الصعبة</div>
+      <ul>
+        <li>حين تواجه سؤالاً يُحرجك، اسأل نفسك: هل هذا السؤال صحيح من الأساس؟</li>
+        <li>السؤال الجيد يُوضّح ما يُخفيه السؤال السيئ</li>
+        <li>قبل الإجابة، افهم الافتراض المدفون في السؤال</li>
+        <li>أحياناً تُعيد توجيه الحوار أكثر مما تجيب عليه</li>
+      </ul>
+    </div>
+
+    <div class="fire-quotes">
+      <div class="fire-title">🔥 أقوى الأفكار والجمل</div>
+      <div class="fire-item">الجواب الصحيح على السؤال الخطأ لا فائدة منه — يسوع كان يُصحّح السؤال قبل أن يُجيب عليه.</div>
+      <div class="fire-item">يسوع لم يكن ملتوياً في ردوده — كان يرفع مستوى الحوار من السطح إلى الجوهر بسؤال واحد.</div>
+      <div class="fire-item">السؤال الجيد لا يُضيّق الحوار — بل يفتح أبواباً لم يرها المتحاورون من قبل.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 6 -->
+<section class="chapter" id="ch6">
+  <div class="chapter-header">
+    <span class="chapter-num">الفصل السادس</span>
+    <h1>هل تحبّني؟ — أعظم سؤال وأعظم وصية</h1>
+    <p class="author">دبّي تومبسون</p>
+  </div>
+  <div class="chapter-body">
+    <div class="tldr">
+      <div class="tldr-title">⚡ الخلاصة السريعة</div>
+      <ul>
+        <li>على شاطئ الجليل بعد القيامة: وجبة فطور غيّرت حياة بطرس إلى الأبد</li>
+        <li>ثلاثة أسئلة متطابقة — تقابل ثلاثة إنكارات بالضبط</li>
+        <li>"هل تحبني؟" — أبسط سؤال وأعمق سؤال في آنٍ واحد</li>
+        <li>الجواب انبثق منه مهمة كاملة: "ارعَ خرافي"</li>
+        <li>أعظم الوصايا تبدأ بالمحبة وتنتهي بالخدمة</li>
+      </ul>
+    </div>
+
+    <h2>المشهد: شاطئ الجليل</h2>
+    <p>بعد القيامة، وبعد فشل الصيد وليلة عمل مضنٍ بلا نتيجة — ظهر يسوع على الشاطئ. أعطاهم صيدة معجزة (١٥٣ سمكة)، ثم دعاهم لوجبة الفطور. كان هو نفسه من طهى لهم.</p>
+
+    <h2>التكرار المقصود</h2>
+    <p>ثلاث مرات سأل يسوع بطرس: "هل تحبني؟" ثلاث مرات أجاب بطرس بـ"نعم". ثلاث مرات أعطاه يسوع مهمة. هذا ليس تكراراً عشوائياً — بل علاج دقيق يُقابل كل إنكار من إنكاراته الثلاثة بسؤال محبة يُعيد البناء.</p>
+
+    <blockquote>
+      من سؤال من أربع كلمات "هل تحبني؟" أعطى يسوع إرشاداً من كلمتين: "أرعَ" و"أتبع". مهمة بطرس كلها انبثقت من هذا السؤال.
+    </blockquote>
+
+    <div class="fire-quotes">
+      <div class="fire-title">🔥 أقوى الأفكار والجمل</div>
+      <div class="fire-item">السؤال الأعظم يتزاوج مع الوصية الأعظم ليهدينا نحو الاكتشاف الأعظم: المحبة. مصير روحنا ورضانا اليومي يرتكز على إجابتنا لسؤال يسوع: "هل تحبّني؟"</div>
+      <div class="fire-item">يسوع لم يُعاقب بطرس على إنكاره — بل أعاده إلى المهمة بسؤال محبة. هذا درس في القيادة والرحمة معاً.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 7 -->
+<section class="chapter" id="ch7">
+  <div class="chapter-header">
+    <span class="chapter-num">الفصل السابع</span>
+    <h1>ماذا تطلب؟ — السؤال الذي يُحدّد حياتك</h1>
+    <p class="author">د. ووتشيتش كوالِفسكي</p>
+  </div>
+  <div class="chapter-body">
+    <div class="tldr">
+      <div class="tldr-title">⚡ الخلاصة السريعة</div>
+      <ul>
+        <li>"ماذا تطلب؟" — أول سؤال طرحه يسوع في إنجيل يوحنا</li>
+        <li>السؤال يُشرك الإنسان في اكتشاف أعمق رغباته وهويّته</li>
+        <li>الفجوة بين ما تريده وما تعيشه هي مصدر الإحباط الأكبر</li>
+        <li>تعريف هدف حياتك ضروري لتوجيه طاقتك وشغفك</li>
+        <li>أعمق رغباتك لها "أب" — الله — الذي وضعها فيك</li>
+      </ul>
+    </div>
+
+    <h2>أول سؤال يسوع في إنجيل يوحنا</h2>
+    <p>حين رأى يسوع التلميذين يتبعانه، التفت وسألهم: "ماذا تطلبون؟" لم يبدأ بمجاملات، لم يُقدّم نفسه مطوّلاً — بل ذهب مباشرة إلى جوهر ما يحرّكهم. هذا هو أسلوب يسوع: اهتمام حقيقي عميق فوري.</p>
+
+    <h2>لماذا السؤال مهم جداً؟</h2>
+    <p>الفجوة بين ما يحتاجه الإنسان وتوقعاته من جهة، وبين واقعه من جهة أخرى — هي المصدر الأكبر للإحباط. من لا يعرف ما يريد حقاً لن يعرف أين يضع جهده.</p>
+
+    <blockquote>
+      "كيف تُجيب على سؤال 'ماذا تطلب؟' سيحدّد ما ستجد وكيف ستعيش هذه الحياة." — الكاتب
+    </blockquote>
+
+    <h2>الرغبات العميقة لها أب</h2>
+    <p>قال الفيلسوف أوغسطينوس: "في كل إنسان فراغ يشبه الله، لا يملؤه شيء سواه." رغباتنا الأعمق ليست صدفة — وضعها فينا خالقنا. "سرّ الحياة الأفضل هو الشغف الذي يرى خيراً أعظم كهدف له" — زيغ زيغلار.</p>
+
+    <div class="fire-quotes">
+      <div class="fire-title">🔥 أقوى الأفكار والجمل</div>
+      <div class="fire-item">يسوع لا يبدأ باتهام أو تعليم أو أوامر — يبدأ بسؤال يكشف ما في الداخل. هذا هو الاهتمام الحقيقي.</div>
+      <div class="fire-item">رغباتنا الأعمق لها قوة هائلة. حين تُسمّيها، وتُعرّفها، وتُسلّمها لله — يتغيّر كل شيء.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 8 -->
+<section class="chapter" id="ch8">
+  <div class="chapter-header">
+    <span class="chapter-num">الفصل الثامن</span>
+    <h1>إلهي لماذا تركتني؟ — السؤال الوحيد الموجّه لله</h1>
+    <p class="author">ماثيو لي أندرسون</p>
+  </div>
+  <div class="chapter-body">
+    <div class="tldr">
+      <div class="tldr-title">⚡ الخلاصة السريعة</div>
+      <ul>
+        <li>من بين ٣٤٠ سؤالاً، سؤال واحد فقط وجّهه يسوع إلى الله مباشرة</li>
+        <li>هذا السؤال على الصليب يجعل المسيحية "الدين الوحيد الذي بدا فيه الله ملحداً لحظة"</li>
+        <li>في سؤاله، يسوع يُقدّس مراثينا وأحزاننا ويُحرّرنا من حملها وحدنا</li>
+        <li>الحرية في السؤال تأتي من كون الله قد سبق وسأل نفس السؤال عنّا</li>
+        <li>السؤال ليس تشكيكاً في الإيمان — بل تعبير عن إنسانيتنا وفقرنا أمام الله</li>
+      </ul>
+    </div>
+
+    <h2>السؤال الوحيد لله</h2>
+    <p>في كل أسئلة يسوع الـ٣٤٠، وجّه سؤالاً واحداً فقط مباشرةً إلى الله: "إلهي إلهي لماذا تركتني؟" سجّله متى بالآرامية الأصلية: "إيلي إيلي لما شبقتني؟" — وهو اقتباس من مزمور ٢٢.</p>
+
+    <h2>ما معنى هذا السؤال؟</h2>
+    <p>قال الكاتب الكاثوليكي ج. ك. تشسترتون: إن هذا يجعل المسيحية "الدين الوحيد الذي بدا فيه الله نفسه للحظة وكأنه ملحد." هذا السؤال في قمة الفداء ليس ضعفاً — بل تضامن كامل مع الإنسانية في أعمق لحظات يأسها.</p>
+
+    <h2>تحرير السؤال البشري</h2>
+    <p>بسؤاله على الصليب، يسوع يُقدّس حقنا في السؤال. نحن لا نحتاج أن نخاف من توجيه الأسئلة الصعبة لله — لأن الله نفسه سأل هذا السؤال عنّا. في الوقت ذاته، السؤال انتهى بالمزمور ٢٢ الذي يختتم بـ"أنقذ عبيده" — نعم إلهية تجيب على "لماذا تركتني."</p>
+
+    <div class="fire-quotes">
+      <div class="fire-title">🔥 أقوى الأفكار والجمل</div>
+      <div class="fire-item">الحرية في السؤال جاءت من أن يسوع سبق وسأل أصعب سؤال عنّا. لا يوجد مجهول — حتى الموت — لم يستكشفه الله من قبلنا نيابةً عنّا.</div>
+      <div class="fire-item">السؤال ليس تمرّداً على الله — بل تعبير عن "فقر الروح" الذي أثنى عليه يسوع في التطويبات. نحن نسأل لأننا نحتاج الله حتى في الفهم.</div>
+      <div class="fire-item">حزن مسيح على الصليب لا يعني غياب الله — بل هو العلامة الكبرى على حضوره الكامل وسط الألم البشري.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 9 -->
+<section class="chapter" id="ch9">
+  <div class="chapter-header">
+    <span class="chapter-num">الفصل التاسع</span>
+    <h1>يسوع كان يعلم — ومع ذلك سأل</h1>
+    <p class="author">كيث وِب</p>
+  </div>
+  <div class="chapter-body">
+    <div class="tldr">
+      <div class="tldr-title">⚡ الخلاصة السريعة</div>
+      <ul>
+        <li>يسوع لم يسأل لأنه لا يعلم — سأل لأن السؤال يُفيد الآخرين</li>
+        <li>ثلاثة أهداف لأسئلة يسوع: تعليم خطابي، تعبير عن الإيمان، أداة للتأمل</li>
+        <li>"ماذا تريد أن أفعل لك؟" — سؤال طرحه على أشخاص احتياجهم واضح تماماً</li>
+        <li>السؤال منح الإنسان فرصة التعبير عن إيمانه ورغبته بنفسه</li>
+        <li>القائد الذي يظن أنه يعرف كل شيء لا يسأل — وهذا خطأ فادح</li>
+      </ul>
+    </div>
+
+    <h2>لماذا يسأل القادة؟</h2>
+    <p>المفهوم السائد: الأسئلة تعني الجهل. لذا بعض القادة يتجنبون السؤال ليبدوا أقوياء وواثقين. يسوع كسر هذه القاعدة تماماً — علم كل شيء وسأل بلا توقف.</p>
+
+    <h2>الهدف الأول: التعليم الخطابي</h2>
+    <p>حين واجه الفريسيين بشأن الجزية، كانت أسئلته الثلاثة ("لماذا تجرّبوني يا مرائين؟ لمن هذه الصورة والكتابة؟") ليست طلباً للمعلومة — بل لإيصال الفكرة إلى عقول السامعين بطريقة لا تُنسى.</p>
+
+    <h2>الهدف الثاني: تعبير عن الإيمان</h2>
+    <p>سأل يسوع الأعميَّين: "ماذا تريدان أن أفعل لكما؟" — الجواب كان واضحاً. لكنه أراد أن يُعطيهما فرصة نطق رغبتهما وإيمانهما بصوت عالٍ. هذا ليس استفهاماً — هذا تمكين.</p>
+
+    <h2>الهدف الثالث: أداة للتأمل</h2>
+    <p>"من يقول الناس أني أنا؟" ← "وأنتم من تقولون أني أنا؟" — الأولى تُحرّك الذاكرة والمعلومات، الثانية تطلب التزاماً شخصياً. الانتقال من الرأي العام إلى الاعتقاد الشخصي هو قمة التأمّل.</p>
+
+    <div class="fire-quotes">
+      <div class="fire-title">🔥 أقوى الأفكار والجمل</div>
+      <div class="fire-item">يسوع لم يسأل الأعميَّين ليعرف ماذا يريدان — سأل ليمنحهما فرصة التعبير عن إيمانهما بصوت عالٍ. السؤال كان هدية لهما لا معلومة له.</div>
+      <div class="fire-item">لا تسأل فقط لمعلوماتك الخاصة — اسأل لمنفعة الآخرين. هذا التحوّل في النية يُغيّر طبيعة كل سؤال تطرحه.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 10 -->
+<section class="chapter" id="ch10">
+  <div class="chapter-header">
+    <span class="chapter-num">الفصل العاشر</span>
+    <h1>تعلّم الإصغاء: ١٠ أسئلة أحبّها</h1>
+    <p class="author">جودي دوغلاس</p>
+  </div>
+  <div class="chapter-body">
+    <div class="tldr">
+      <div class="tldr-title">⚡ الخلاصة السريعة</div>
+      <ul>
+        <li>يسوع لم يكن يسأل ويمضي — كان يسمع</li>
+        <li>السؤال بدون إصغاء هو مجرد صياح</li>
+        <li>الأسئلة الجيدة تفتح أبواباً للحديث عن التجارب والأحلام والأفكار</li>
+        <li>سؤال "كيف فاجأك الله مؤخراً؟" يصنع أجمل المحادثات</li>
+        <li>الإصغاء الحقيقي يبني علاقات وصداقات حقيقية</li>
+      </ul>
+    </div>
+
+    <h2>١٠ أسئلة لتعميق العلاقات</h2>
+
+    <ol>
+      <li><strong>ما الذي أنت ممتنّ له اليوم؟</strong> — يوجّه الانتباه نحو الخير دائماً.</li>
+      <li><strong>ما شيء تعلّمته مؤخراً؟</strong> — يكشف ما يشغل عقل الشخص.</li>
+      <li><strong>لو تغيّر شيء واحد في حياتك، ما هو؟</strong> — يُظهر ما يعاني منه فعلاً.</li>
+      <li><strong>من أو ما الذي شجّعك هذا الأسبوع؟</strong> — يُعيد الامتنان والتقدير.</li>
+      <li><strong>لو صمّمت وظيفتك المثالية، كيف ستكون؟</strong> — يكشف الأحلام الحقيقية.</li>
+      <li><strong>ما كتاب أو فيلم أثّر فيك مؤخراً؟</strong> — يفتح نقاشات فكرية ممتعة.</li>
+      <li><strong>ما شيء طالما حلمت بفعله؟</strong> — يُنشّط جزء الأحلام المجمّدة.</li>
+      <li><strong>ما أصعب شيء فعلته في حياتك؟</strong> — يكشف القيم والشخصية.</li>
+      <li><strong>لو نصحت شخصاً بسرّ السعادة، ما ستقول؟</strong> — يختصر حكمته المكتسبة.</li>
+      <li><strong>كيف فاجأك الله مؤخراً؟</strong> — يفتح أجمل المحادثات من قلب إلى قلب.</li>
+    </ol>
+
+    <div class="fire-quotes">
+      <div class="fire-title">🔥 أقوى الأفكار والجمل</div>
+      <div class="fire-item">الأسئلة وحدها لا تكفي — الإصغاء هو الجزء الأهم. من يسأل بلا إصغاء يُخبر الطرف الآخر فقط أنه لا يهمّه في الحقيقة.</div>
+      <div class="fire-item">"كيف فاجأك الله مؤخراً؟" — هذا السؤال يصنع دائماً محادثة لا تُنسى، لأنه يدعو الشخص لتقدير قصص حياته المقدّسة.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 11 -->
+<section class="chapter" id="ch11">
+  <div class="chapter-header">
+    <span class="chapter-num">الفصل الحادي عشر</span>
+    <h1>القيادة بالأسئلة؟ هذا سؤال جيد!</h1>
+    <p class="author">د. رونالد هاريس</p>
+  </div>
+  <div class="chapter-body">
+    <div class="tldr">
+      <div class="tldr-title">⚡ الخلاصة السريعة</div>
+      <ul>
+        <li>إعطاء التوجيهات أسهل من طرح الأسئلة — لكن الأسئلة أكثر فعالية</li>
+        <li>القائد الذي يعتقد أنه يعلم كل شيء يُقيّد فريقه وروح القدس معاً</li>
+        <li>معادلة بوب تييدي: "ما رأيك؟ وماذا أيضاً؟ وماذا أيضاً؟ وماذا أيضاً؟"</li>
+        <li>الصمت بعد السؤال سلاح قوي — لا تملأه بسرعة</li>
+        <li>النظر في العين وقت الإجابة يُعبّر عن الاحترام الحقيقي</li>
+      </ul>
+    </div>
+
+    <h2>معادلة القيادة بالأسئلة في ٣٠ ثانية</h2>
+    <div class="fire-quotes" style="margin-bottom:0">
+      <div class="fire-title">🎯 معادلة بوب تييدي</div>
+      <div class="fire-item" style="text-align:center; font-size:1.1rem;">ما رأيك؟ ← وماذا أيضاً؟ ← وماذا أيضاً؟ ← وماذا أيضاً؟</div>
+    </div>
+    <p style="margin-top:1rem;">هذه الأسئلة الأربعة تأخذ المحادثة إلى عمق أكبر في كل مرحلة. "وماذا أيضاً؟" تُظهر أنك تسمع وتقدّر وتريد المزيد.</p>
+
+    <h2>قوة الصمت</h2>
+    <p>أكثر من ١٠،٠٠٠ مقابلة إعلامية علّمت الكاتب: الصمت بعد الإجابة يجعل المُجاب يشعر بأن جوابه لم يكتمل فيضيف المزيد. لا تملأ الصمت بسرعة — دعه يعمل.</p>
+
+    <h2>لماذا نتجنب الأسئلة؟</h2>
+    <p>لأن إعطاء التوجيهات أسرع وأسهل. لأن بعض القادة يخشون أن يظهروا بمظهر من لا يعرف. لكن القائد الذي يعتقد أنه يملك كل الإجابات يُقيّد فريقه وقدرة الروح القدس على الإلهام عبر الآخرين.</p>
+
+    <div class="fire-quotes">
+      <div class="fire-title">🔥 أقوى الأفكار والجمل</div>
+      <div class="fire-item">أسرع طريقة لتقليل قيمة زميل موهوب: أن تتجاهل إجابته وتنتقل إلى ما تريد قوله أنت. الإصغاء الحقيقي أغلى من أي مهارة قيادية أخرى.</div>
+      <div class="fire-item">القائد الذي يخشى أسئلة فريقه لأنها قد تُظهر نقاط ضعفه، يُحكم إغلاق باب أعظم مصادر قوّته — عقول الآخرين.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 12 -->
+<section class="chapter" id="ch12">
+  <div class="chapter-header">
+    <span class="chapter-num">الفصل الثاني عشر</span>
+    <h1>سؤالي المفضل: "وأنت ماذا تقول؟" (٤ كلمات تغيّر كل شيء)</h1>
+    <p class="author">هوك تشاي قو</p>
+  </div>
+  <div class="chapter-body">
+    <div class="tldr">
+      <div class="tldr-title">⚡ الخلاصة السريعة</div>
+      <ul>
+        <li>السؤال: "وأنت ماذا تقول؟ من تقول أني أنا؟" — من مرقس ٨:٢٩</li>
+        <li>انتقل من "ما يقوله الناس" إلى "ما تقوله أنت" — تحوّل من المعرفة إلى الإيمان</li>
+        <li>بطرس أجاب بالإيمان والإعلان: "أنت المسيح ابن الله الحي"</li>
+        <li>هذا السؤال لا يزال يطرحه يسوع على كل إنسان اليوم</li>
+        <li>إجابتك لهذا السؤال تحدّد مسار حياتك ومآلها</li>
+      </ul>
+    </div>
+
+    <h2>السؤال العادي الذي يغيّر كل شيء</h2>
+    <p>٤ كلمات، ١٥ حرفاً. لكن هذا السؤال "وأنت ماذا تقول؟" يتردد صداه عبر الأجيال. إنه يأخذ بيدك من:</p>
+    <ul>
+      <li>ما تعتقد أنك تعرفه ← إلى ما تعرفه فعلاً</li>
+      <li>ما تعرفه ← إلى ما تؤمن به حقاً</li>
+      <li>ما تؤمن به ← إلى كيف تحيا هذا الإيمان</li>
+    </ul>
+
+    <h2>إجابة بطرس: إعلان في وجه الشك</h2>
+    <p>بطرس تقدّم وسط التردد وأعلن بصوت يرتجف من الإيمان: "أنت المسيح." متى يُضيف: "ابن الله الحي." في تلك اللحظة تغيّر كل شيء — فهم التلاميذ هويّة من يتبعون، وتغيّرت حياة بطرس إلى الأبد.</p>
+
+    <div class="fire-quotes">
+      <div class="fire-title">🔥 أقوى الأفكار والجمل</div>
+      <div class="fire-item">حين يكون لديك لقاء مع الله الحي — يسألك: "ما رأيك؟" حين يُلقى عليك عظة جيدة — تُسأل: "ما رأيك؟" حين تقرأ الكتاب المقدس — تتساءل: "ما رأيي أنا؟"</div>
+      <div class="fire-item">السؤال نفسه الذي طرحه يسوع على تلاميذه يُعيد طرح نفسه علينا. إجابتنا الصادقة عليه هي نقطة البداية لرحلة مع الله.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 13 -->
+<section class="chapter" id="ch13">
+  <div class="chapter-header">
+    <span class="chapter-num">الفصل الثالث عشر</span>
+    <h1>من يقول الناس أني أنا؟ — إفصاح عبر التساؤل</h1>
+    <p class="author">ديلانيو أدادِفوه</p>
+  </div>
+  <div class="chapter-body">
+    <div class="tldr">
+      <div class="tldr-title">⚡ الخلاصة السريعة</div>
+      <ul>
+        <li>يسوع لم يُعلن هويّته بيانياً — كشفها من خلال أسئلة متدرّجة</li>
+        <li>السؤال العام أولاً "ما يقوله الناس" ← ثم الشخصي "وأنت ماذا تقول"</li>
+        <li>الأسئلة المتدرّجة تُعمّق التفكير ومستوى الالتزام بالإجابة</li>
+        <li>الإعلان لا يكفي — الأسئلة تُشرك الجمهور في اكتشاف الحقيقة بأنفسهم</li>
+        <li>القيادة بالأسئلة تعني محاذاة الكلمات والأفعال معاً</li>
+      </ul>
+    </div>
+
+    <h2>الحكمة في التسلسل</h2>
+    <p>يسوع بدأ بـ"من يقول الناس أني أنا؟" — سؤال عام يسهل الإجابة عنه ويُدخل الجميع في الحوار. ثم جاء السؤال الشخصي: "وأنتم من تقولون؟" — هذا التدرج من العام إلى الخاص يُعمّق مستوى الالتزام.</p>
+
+    <h2>الأسئلة تُفصح عن الحقيقة بطريقة أعمق</h2>
+    <p>إعلان بسيط "أنا المسيح ابن الله" كان سيُصادم الكثيرين ويُغلق باب التفكير. لكن السؤال "من تقول أني أنا؟" يفتح باب التفكير العميق الذي يُنتج إيماناً صادقاً لا تقليداً أعمى.</p>
+
+    <h2>القيادة تعني محاذاة الكلمات والأفعال</h2>
+    <p>يسوع لم يسأل بالكلمات فقط — أجاب على سؤال "من هو؟" بأفعاله أيضاً. حين هدّأ العاصفة، صاح التلاميذ: "من هذا؟" — كانت معجزاته أسئلة غير ملفوظة عن هويّته.</p>
+
+    <div class="fire-quotes">
+      <div class="fire-title">🔥 أقوى الأفكار والجمل</div>
+      <div class="fire-item">الأسئلة الجيدة لها تطبيق أوسع — كل إنسان يجب أن يُعطى فرصة الإجابة على "من هو يسوع؟" ليس كافياً الإجابة لنفسك — ينبغي تحدّي الآخرين ليُجيبوا هم أيضاً.</div>
+      <div class="fire-item">القيادة الأفضل هي التي تطرح الأسئلة المحوريّة بكامل حياتها — بالكلمات والأفعال معاً.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 14 -->
+<section class="chapter" id="ch14">
+  <div class="chapter-header">
+    <span class="chapter-num">الفصل الرابع عشر</span>
+    <h1>الأسئلة تصنع الصداقات</h1>
+    <p class="author">ليزلي تشيزمان</p>
+  </div>
+  <div class="chapter-body">
+    <div class="tldr">
+      <div class="tldr-title">⚡ الخلاصة السريعة</div>
+      <ul>
+        <li>الوحدة وباء القرن الحادي والعشرين — والأسئلة هي الترياق</li>
+        <li>يسوع بنى علاقات عميقة بالبدء بأسئلة بسيطة ("أعطيني لأشرب")</li>
+        <li>الفضول الحقيقي يرفع معدل المحبوبية ويبني الثقة</li>
+        <li>خطوات بناء الصداقة: ابدأ، استمر، أعطِ مساحة، أعطِ وقتاً، تعمّق</li>
+        <li>"هل تستطيع أن تخبرني أكثر؟" — سؤال يفتح الأرواح</li>
+      </ul>
+    </div>
+
+    <h2>أزمة الوحدة في عالم متّصل</h2>
+    <p>في بريطانيا، عيّنت الحكومة وزيراً للوحدة — وهذا يقول كل شيء. الشباب بين ١٦-٢٩ عاماً هم أكثر عرضة للوحدة من كبار السن. التقنية وصلت بيننا دون أن تقرّبنا.</p>
+
+    <h2>كيف صنع يسوع الصداقات؟</h2>
+    <p>طلب من امرأة سامرية كانت مرفوضة اجتماعياً ودينياً: "أعطيني لأشرب." سؤال بسيط فتح محادثة غيّرت حياتها وأثّر في مدينتها بأكملها. الصداقات العميقة تبدأ دائماً بسؤال بسيط.</p>
+
+    <h2>خطوات بناء الصداقة بالأسئلة</h2>
+    <p><strong>١. خذ المبادرة:</strong> "كيف تعاونك في شيء؟" — البساطة تكفي في البداية.</p>
+    <p><strong>٢. لا تستهن بالحديث الخفيف:</strong> "كيف كانت أسبوعك؟" — يكسر الحاجز ويُثبّت الأرضية المشتركة.</p>
+    <p><strong>٣. أعطِ مساحة لأسئلتهم:</strong> الصداقة ليست استجواباً — تحادث متبادل.</p>
+    <p><strong>٤. استثمر الوقت:</strong> "هل نلتقي على قهوة؟" — الصداقة تحتاج ساعات حقيقية.</p>
+    <p><strong>٥. تعمّق:</strong> "هل تستطيع أن تُخبرني أكثر؟" — البوابة إلى الروح.</p>
+
+    <div class="fire-quotes">
+      <div class="fire-title">🔥 أقوى الأفكار والجمل</div>
+      <div class="fire-item">بحوث جامعة هارفارد: محبوبيّتك ترتفع بشكل ملحوظ حين تسأل أسئلة متابعة تُظهر أنك تسمع وتهتم. الفضول الحقيقي هو أسرع طريق لبناء الثقة.</div>
+      <div class="fire-item">قصصنا مهمة. حين نُعطي مساحة بأسئلة مفتوحة وإصغاء غير حكمي، نُتيح تبادلاً جميلاً من الحياة يُلهم الأمل.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 15 -->
+<section class="chapter" id="ch15">
+  <div class="chapter-header">
+    <span class="chapter-num">الفصل الخامس عشر</span>
+    <h1>أسئلة أسكتت الفريسيين — لكن يسوع لم يكن سعيداً بصمتهم</h1>
+    <p class="author">بيرتي بيرهامي</p>
+  </div>
+  <div class="chapter-body">
+    <div class="tldr">
+      <div class="tldr-title">⚡ الخلاصة السريعة</div>
+      <ul>
+        <li>يسوع طرح سؤالاً أعجز الفريسيين عن الإجابة — لكنه لم يفرح بصمتهم</li>
+        <li>الهدف لم يكن إسكاتهم بل تغيير قلوبهم</li>
+        <li>إسكات الفم لا يعني إزالة الشر من القلب</li>
+        <li>القائد العظيم يسأل ليفوز بالشخص، لا ليفوز بالجدل</li>
+        <li>أسئلة يسوع للخصوم كانت مخترِقة للقلوب لا محترِقة بالانتصار</li>
+      </ul>
+    </div>
+
+    <h2>المشهد: الشفاء في السبت</h2>
+    <p>حين كان يسوع على وشك شفاء رجل يده اليابسة في السبت، سأل الفريسيين: "أيّ شيء يجوز في السبت: الخير أم الشر، أن تُحيَى نفس أم تُقتَل؟" فصمتوا. الفريسيون اختاروا الصمت لأنه وضعهم أمام خيار لا مفرّ منه.</p>
+
+    <h2>المفاجأة: يسوع لم يفرح بصمتهم</h2>
+    <p>ماذا كان ردّ فعله؟ "نظر إليهم بغضب، وحزن على قساوة قلوبهم." لم يكن هدفه إسكاتهم — كان هدفه تغيير قلوبهم. فوز الحجة لم يكن ما أراد — فوز الروح هو ما أراد.</p>
+
+    <h2>درس للقادة</h2>
+    <p>طرح أسئلة على خصومك لا يعني تدميرهم — يعني دعوتهم لاختيار الحياة. القائد الذي يستهدف إسكات خصمه يُخسر الشخص ويربح الجدل. القائد الذي يستهدف قلب خصمه قد يُخسر الجدل ويُنقذ إنساناً.</p>
+
+    <div class="key-points">
+      <div class="key-points-title">💡 أسئلة للقيادة مع المعارضين</div>
+      <ul>
+        <li>"ما أكثر ما يُقلقك في هذه المسألة؟"</li>
+        <li>"هل تستطيع أن تُعطيني أمثلة على انتقاداتك؟"</li>
+        <li>"ما الذي يدفعك إلى هذا الموقف؟"</li>
+        <li>"كيف تقترح حل هذه المشكلة؟"</li>
+        <li>"ما الذي سيحدث إن لم يتغيّر شيء؟"</li>
+        <li>"هل هناك أرضية مشتركة يمكننا البناء عليها؟"</li>
+      </ul>
+    </div>
+
+    <div class="fire-quotes">
+      <div class="fire-title">🔥 أقوى الأفكار والجمل</div>
+      <div class="fire-item">إسكات فم الخصم لا يعني إزالة الشرّ من قلبه. يسوع كان يستهدف القلوب لا الأفواه — وهذا ما يُميّز القائد العظيم عن المجادل الانتهازي.</div>
+      <div class="fire-item">ما كان يُفرّق يسوع عن الفريسيين أكثر من أي شيء آخر: نزاهته الكاملة. كان مستعداً لأن يدفع ثمن ما يقوله ويفعله حتى بلغ الصليب.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 16 -->
+<section class="chapter" id="ch16">
+  <div class="chapter-header">
+    <span class="chapter-num">الفصل السادس عشر</span>
+    <h1>القيادة بالأسئلة: استراتيجية كتابية للقيادة</h1>
+    <p class="author">بوب تييدي</p>
+  </div>
+  <div class="chapter-body">
+    <div class="tldr">
+      <div class="tldr-title">⚡ الخلاصة السريعة</div>
+      <ul>
+        <li>القيادة بالأسئلة مبدأ كتابي حقيقي — ليس مجرد تقنية قيادية حديثة</li>
+        <li>سوء التواصل يُكلّف الشركات ٤٢٠،٠٠٠ دولار سنوياً</li>
+        <li>الأسئلة تُبني الفهم المشترك وتُوحّد الفريق نحو هدف واحد</li>
+        <li>القيادة بالأسئلة تُولّد الحوار وتُعزّز العلاقات داخل المؤسسة</li>
+        <li>القيادة بالأسئلة = قيادة بالإيمان</li>
+      </ul>
+    </div>
+
+    <h2>أزمة التواصل في المؤسسات</h2>
+    <p>تقرير جمعية إدارة الموارد البشرية: سوء التواصل يُكلّف الشركات <strong>٤٢٠،٠٠٠ دولار سنوياً</strong>. القائد المنشغل بالنتائج الذي يتجاهل أفكار فريقه يُلحق ضرراً حقيقياً بمؤسسته.</p>
+
+    <h2>يسوع: النموذج الأعلى للقيادة</h2>
+    <p>درس القادة في عالم الأعمال أساليب يسوع القيادية وخلصوا إلى أنه النموذج الأكثر دلالةً في التاريخ. في خلال ثلاث سنوات، دُرَّب اثنا عشر رجلاً أطلقوا حركة لا تزال قائمة بعد ٢٠٠٠ عام.</p>
+
+    <h2>الأسئلة تكشف القلوب وتعيد التوجيه</h2>
+    <p>حين سأل يسوع بطرس ثلاثاً "هل تحبني؟" لم يكن فقط يتأكد من المحبة — كان يُعيد بطرس إلى قلبه وإلى المهمة. القائد الجيد يستخدم الأسئلة لإعادة فريقه إلى روح المهمة لا فقط إلى تفاصيلها.</p>
+
+    <h2>الأسئلة تُعزّز الحوار وتبني الثقة</h2>
+    <p>في الشركات الحديثة كما في المجتمعات القديمة، تنشأ التوترات وتتراكم سوء الفهم. القائد الذي يطرح الأسئلة يُنشئ ثقافة الاحترام والمساءلة المتبادلة — لا ثقافة الخوف من إبداء الرأي.</p>
+
+    <div class="fire-quotes">
+      <div class="fire-title">🔥 أقوى الأفكار والجمل</div>
+      <div class="fire-item">القيادة بالأسئلة تتطلب صفات كتابية: الثقة، والتواضع، والاستعداد للتعلم من الآخرين. إنها الطريق إلى بناء مؤسسة يسودها الفضول والاحترام والتحسين المستمر.</div>
+      <div class="fire-item">بتمثّل أسلوب يسوع في طرح الأسئلة، نُجسّد طريقه في حياتنا اليومية ونبني ثقافة تُشبه روحه.</div>
+      <div class="fire-item">القائد الذي يقود بالأسئلة سيكون ١٠ مرات أكثر فعالية من القائد الذي يقود بالأوامر فقط.</div>
+    </div>
+
+    <!-- FINAL REFLECTION -->
+    <div class="divider"></div>
+    <h2>خلاصة ختامية: السؤال الباقي</h2>
+    <p>قرأت ٣٤٠ سؤالاً سألها يسوع. عشت مع الحكمة الكامنة خلفها. الآن جاء دورك. في نهاية هذه الرحلة، يعود السؤال الأهم ليطرق قلبك:</p>
+
+    <div class="fire-item" style="background:var(--quote-bg); border:2px solid var(--accent2); border-radius:8px; padding:1.5rem; text-align:center; font-family:'Amiri',serif; font-size:1.3rem; line-height:2; margin-top:1rem;">
+      "وأنتَ، من تقول أني أنا؟"
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+// Progress Bar
+function updateProgress() {
+  const scrolled = window.scrollY;
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = total > 0 ? (scrolled / total) * 100 : 0;
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+window.addEventListener('scroll', updateProgress);
+
+// Dark Mode
+const THEME_KEY = 'ebook-theme-340';
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  document.getElementById('theme-toggle').textContent = t === 'dark' ? '☀️' : '🌙';
+}
+document.getElementById('theme-toggle').addEventListener('click', () => {
+  const cur = document.documentElement.getAttribute('data-theme');
+  const next = cur === 'dark' ? 'light' : 'dark';
+  applyTheme(next);
+  localStorage.setItem(THEME_KEY, next);
+});
+const saved = localStorage.getItem(THEME_KEY);
+if (saved) applyTheme(saved);
+
+// TOC
+function openTOC() {
+  document.getElementById('toc-panel').classList.add('open');
+  document.getElementById('toc-overlay').classList.add('open');
+}
+function closeTOC() {
+  document.getElementById('toc-panel').classList.remove('open');
+  document.getElementById('toc-overlay').classList.remove('open');
+}
+document.querySelectorAll('#toc-panel a').forEach(a => {
+  a.addEventListener('click', closeTOC);
+});
+</script>
+</body>
+</html>
